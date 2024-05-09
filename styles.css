@@ -1,0 +1,72 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+body {
+  background-color: #eee2df;
+}
+
+h1 {
+  text-align: center;
+  margin: 1rem;
+}
+h2 {
+  font-size: 1.5rem;
+  margin: 1rem;
+}
+h2:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+img:hover {
+  cursor: pointer;
+}
+.radios {
+  font-size: 1.5rem;
+}
+
+.form {
+  text-align: center;
+}
+.cocktail-card {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem 0.5rem;
+  font-size: 16px;
+  border: 1px solid black;
+  border-radius: 2rem;
+  box-shadow: 1px 1px 1px grey;
+}
+.logo {
+  width: 25%;
+}
+img {
+  width: 80%;
+  margin-bottom: 1rem;
+}
+.cocktail-container {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 768px) {
+  .cocktail-container {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 992px) {
+  .cocktail-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+  .cocktail-card {
+    width: 20%;
+  }
+}
