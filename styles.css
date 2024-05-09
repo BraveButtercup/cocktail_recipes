@@ -16,19 +16,16 @@ h2 {
   font-size: 1.5rem;
   margin: 1rem;
 }
-h2:hover {
-  text-decoration: underline;
-  cursor: pointer;
-}
-img:hover {
-  cursor: pointer;
-}
+
 .radios {
   font-size: 1.5rem;
 }
 
 .form {
   text-align: center;
+}
+button:hover {
+  cursor: pointer;
 }
 .cocktail-card {
   text-align: center;

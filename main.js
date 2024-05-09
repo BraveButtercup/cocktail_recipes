@@ -9,6 +9,7 @@ const $BUTTON_FIRST = document.querySelector(".js-btn");
 const $BUTTON_TWO = document.querySelector(".js-btn-two");
 const $INPUT = document.querySelector(".js-field");
 
+
 //
 async function fetchData(url) {
     const response = await fetch(url);
@@ -35,22 +36,34 @@ function alkoholOrNon(event) {
 // searchbar
 
 function createDataTemplate(data) {
-    return `<div class="cocktail-card">
-    <h2 class="js-name">${data.strDrink}</h2>
-    <img src="${data.strDrinkThumb}" alt="${data.strDrink}" class="search-img"/>
-    <p>${data.strInstructions}</p>
-    </div>`
+
+    if (data.strInstructions) {
+
+        return `<div class="cocktail-card">
+                <h2 class="js-name">${data.strDrink}</h2>
+                <img src="${data.strDrinkThumb}" alt="${data.strDrink}" class="search-img"/>
+                <p>${data.strInstructions}</p>
+                </div>`
+    } else {
+        return `
+                <div class="cocktail-card">
+                <h2 class="js-name">${data.strDrink}</h2>
+                <img src="${data.strDrinkThumb}" alt="${data.strDrink}" class="search-img"/>
+                </div>`
+    }
 }
 
 async function eventHandler(e) {
     e.preventDefault();
-    debugger;
-    searchValue = e.target.value.toLowerCase();
+    searchValue = document.querySelector(`input[type="text"]`).value.toLowerCase();
     let newApi = API_INGR + searchValue;
     let ingredients = await fetchData(newApi)
     renderData(ingredients);
+
 };
 
 
 $BUTTON_FIRST.addEventListener("click", alkoholOrNon);
-$INPUT.addEventListener("input", eventHandler);
+//$INPUT.addEventListener("keydown", eventHandler);
+$BUTTON_TWO.addEventListener("click", eventHandler);
+
