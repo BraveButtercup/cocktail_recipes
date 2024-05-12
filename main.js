@@ -8,6 +8,8 @@ const $CONTAINER = document.querySelector(".js-container");
 const $BUTTON_FIRST = document.querySelector(".js-btn");
 const $BUTTON_TWO = document.querySelector(".js-btn-two");
 const $INPUT = document.querySelector(".js-field");
+const $SEARCHBAR = document.querySelector(".js-searchbar")
+const $CARD = document.querySelector(".js-card")
 
 
 //
@@ -18,9 +20,17 @@ async function fetchData(url) {
 };
 
 function renderData(data) {
-    $CONTAINER.innerHTML = ""
-    let template = data.map(glass => createDataTemplate(glass)).join("");
-    $CONTAINER.innerHTML = template;
+
+
+    $CONTAINER.innerHTML = "";
+
+    if (data == "null") {
+        $CONTAINER.innerHTML = `<div><p>Nincs találat</p></div>`
+    }
+    else {
+        let template = data.map(glass => createDataTemplate(glass)).join("");
+        $CONTAINER.innerHTML = template;
+    }
 };
 
 function alkoholOrNon(event) {
@@ -39,31 +49,49 @@ function createDataTemplate(data) {
 
     if (data.strInstructions) {
 
-        return `<div class="cocktail-card">
-                <h2 class="js-name">${data.strDrink}</h2>
+        return `<div class="js-card cocktail-card">
+                <h2 class="js-name" data-id = ${data.idDrink}">${data.strDrink}</h2>
                 <img src="${data.strDrinkThumb}" alt="${data.strDrink}" class="search-img"/>
                 <p>${data.strInstructions}</p>
                 </div>`
-    } else {
+    }
+    else {
         return `
-                <div class="cocktail-card">
-                <h2 class="js-name">${data.strDrink}</h2>
+                <div class="js-card cocktail-card">
+                <h2 class="js-name" data-id = ${data.idDrink}>${data.strDrink}</h2>
                 <img src="${data.strDrinkThumb}" alt="${data.strDrink}" class="search-img"/>
                 </div>`
     }
 }
 
-async function eventHandler(e) {
-    e.preventDefault();
-    searchValue = document.querySelector(`input[type="text"]`).value.toLowerCase();
-    let newApi = API_INGR + searchValue;
-    let ingredients = await fetchData(newApi)
-    renderData(ingredients);
+function validation() {
+    if ($INPUT.value == "" || $INPUT.value.trim().length == 0) {
+        $INPUT.classList.add("is-invalid")
+        return false;
+    } else {
+        $INPUT.classList.remove("is-invalid")
+    }
+    return true;
+};
 
+async function eventHandler(e) {
+    $CONTAINER.innerHTML = "";
+    if (validation()) {
+        e.preventDefault();
+        searchValue = document.querySelector(`input[type = "text"]`).value.toLowerCase();
+        let newApi = API_INGR + searchValue;
+        let ingredients = await fetchData(newApi)
+        renderData(ingredients);
+
+    }
 };
 
 
+
+
 $BUTTON_FIRST.addEventListener("click", alkoholOrNon);
-//$INPUT.addEventListener("keydown", eventHandler);
 $BUTTON_TWO.addEventListener("click", eventHandler);
+$BUTTON_TWO.addEventListener("click", validation);
+
+
 

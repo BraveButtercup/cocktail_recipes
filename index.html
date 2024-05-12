@@ -44,17 +44,27 @@
           Search
         </button>
 
-        <p>Or search ingredients, name</p>
-        <div
-          class="searchbar d-flex flex-column justify-content-center align-items-center"
-        >
-          <input type="text" name="searchbar" class="js-field" />
-          <button type="button" class="m-3 js-btn btn btn-success js-btn-two">
+        <div>
+          <label for="validationServer03" class="form-label"
+            >Search ingredients or name</label
+          >
+          <input
+            type="text"
+            class="form-control js-field"
+            id="validationServer03"
+            aria-describedby="validationServer03Feedback"
+            required
+          />
+          <div id="validationServer03Feedback" class="invalid-feedback">
+            Please write something
+          </div>
+          <button type="button" class="mb-5 js-btn-two btn btn-success">
             Search
           </button>
         </div>
       </form>
     </section>
+
     <section class="cocktail-container js-container"></section>
 
     <script
