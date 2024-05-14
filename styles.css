@@ -44,11 +44,11 @@ button:hover {
   box-shadow: 1px 1px 1px grey;
 }
 .logo {
-  width: 25%;
+  width: 200px;
+  height: 200px;
 }
 img {
   width: 80%;
-  margin-bottom: 1rem;
 }
 .cocktail-container {
   display: grid;

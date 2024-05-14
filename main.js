@@ -9,7 +9,7 @@ const $BUTTON_FIRST = document.querySelector(".js-btn");
 const $BUTTON_TWO = document.querySelector(".js-btn-two");
 const $INPUT = document.querySelector(".js-field");
 const $SEARCHBAR = document.querySelector(".js-searchbar")
-const $CARD = document.querySelector(".js-card")
+
 
 
 //
@@ -21,16 +21,10 @@ async function fetchData(url) {
 
 function renderData(data) {
 
-
     $CONTAINER.innerHTML = "";
+    let template = data.map(glass => createDataTemplate(glass)).join("");
+    $CONTAINER.innerHTML = template;
 
-    if (data == "null") {
-        $CONTAINER.innerHTML = `<div><p>Nincs találat</p></div>`
-    }
-    else {
-        let template = data.map(glass => createDataTemplate(glass)).join("");
-        $CONTAINER.innerHTML = template;
-    }
 };
 
 function alkoholOrNon(event) {
@@ -43,17 +37,19 @@ function alkoholOrNon(event) {
     }
 };
 
-// searchbar
 
 function createDataTemplate(data) {
 
     if (data.strInstructions) {
+        let filteredIngredients = renderIngredients(data);
 
         return `<div class="js-card cocktail-card">
                 <h2 class="js-name" data-id = ${data.idDrink}">${data.strDrink}</h2>
                 <img src="${data.strDrinkThumb}" alt="${data.strDrink}" class="search-img"/>
                 <p>${data.strInstructions}</p>
+                <div><ul>${filteredIngredients}</ul></div>
                 </div>`
+
     }
     else {
         return `
@@ -75,23 +71,46 @@ function validation() {
 };
 
 async function eventHandler(e) {
+    e.preventDefault();
     $CONTAINER.innerHTML = "";
     if (validation()) {
-        e.preventDefault();
-        searchValue = document.querySelector(`input[type = "text"]`).value.toLowerCase();
-        let newApi = API_INGR + searchValue;
-        let ingredients = await fetchData(newApi)
-        renderData(ingredients);
+        try {
+            searchValue = document.querySelector(`input[type = "text"]`).value.toLowerCase();
+            let newApi = API_INGR + searchValue;
+            let ingredients = await fetchData(newApi)
+            renderData(ingredients)
 
+        } catch (error) {
+            $CONTAINER.innerHTML = `<div class="error js-error"> No results </div>`
+        }
     }
 };
 
+function renderIngredients(value) {
+    debugger;
+    let newList = [];
+    for (let i = 1; i <= 15; i++) {
+
+        let ingr = value[`strIngredient${i}`];
+        if (typeof ingr === "string" && ingr.length > 0) {
+            newList.push(ingr);
+        };
+
+    }
+
+    return newList.map(newListIngr => `<li>${newListIngr}</li>`).join("")
 
 
+}
 
 $BUTTON_FIRST.addEventListener("click", alkoholOrNon);
 $BUTTON_TWO.addEventListener("click", eventHandler);
-$BUTTON_TWO.addEventListener("click", validation);
+$INPUT.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+        eventHandler(e);
+    }
+});
+
 
 
 
