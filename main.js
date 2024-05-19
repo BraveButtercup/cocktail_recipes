@@ -1,14 +1,9 @@
-const API_URL = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Alcoholic";
-const API_URL_NON = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Non_Alcoholic";
-const API_INGR = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=`;
-let searchValue;
-const DRINKS = await fetchData(API_URL);
-const NADRINKS = await fetchData(API_URL_NON);
+const API_NAME = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=`;
+const API_INGR = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=`;
 const $CONTAINER = document.querySelector(".js-container");
-const $BUTTON_FIRST = document.querySelector(".js-btn");
-const $BUTTON_TWO = document.querySelector(".js-btn-two");
+const $BUTTON = document.querySelector(".js-btn-two");
 const $INPUT = document.querySelector(".js-field");
-const $SEARCHBAR = document.querySelector(".js-searchbar")
+//const API = await fetchdata()
 
 
 
@@ -16,7 +11,7 @@ const $SEARCHBAR = document.querySelector(".js-searchbar")
 async function fetchData(url) {
     const response = await fetch(url);
     const data = await response.json();
-    return data.drinks
+    return data.drinks || [];
 };
 
 function renderData(data) {
@@ -25,42 +20,33 @@ function renderData(data) {
     let template = data.map(glass => createDataTemplate(glass)).join("");
     $CONTAINER.innerHTML = template;
 
-};
 
-function alkoholOrNon(event) {
-    event.preventDefault();
-    let inputValue = document.querySelector('input[name="cocktail"]:checked').value;
-    if (inputValue === "Alcoholic") {
-        renderData(DRINKS);
-    } else {
-        renderData(NADRINKS);
-    }
 };
-
 
 function createDataTemplate(data) {
-
-    if (data.strInstructions) {
+    let searchType = document.querySelector('input[name="searchType"]:checked').value;
+    if (searchType === "name") {
         let filteredIngredients = renderIngredients(data);
 
         return `<div class="js-card cocktail-card">
-                <h2 class="js-name" data-id = ${data.idDrink}">${data.strDrink}</h2>
+                <h2 class="js-name" data-id = ${data.idDrink} > ${data.strDrink}</h2>
                 <img src="${data.strDrinkThumb}" alt="${data.strDrink}" class="search-img"/>
+                <div>Ingredients: 
+                <ul>${filteredIngredients}</ul></div>
                 <p>${data.strInstructions}</p>
-                <div><ul>${filteredIngredients}</ul></div>
-                </div>`
-
-    }
+    
+                </div>`}
     else {
-        return `
-                <div class="js-card cocktail-card">
-                <h2 class="js-name" data-id = ${data.idDrink}>${data.strDrink}</h2>
+        return `<div class="js-card cocktail-card">
+                <h2 class="js-name" data-id = ${data.idDrink} > ${data.strDrink}</h2>
                 <img src="${data.strDrinkThumb}" alt="${data.strDrink}" class="search-img"/>
                 </div>`
     }
 }
 
+
 function validation() {
+
     if ($INPUT.value == "" || $INPUT.value.trim().length == 0) {
         $INPUT.classList.add("is-invalid")
         return false;
@@ -71,15 +57,24 @@ function validation() {
 };
 
 async function eventHandler(e) {
+    debugger;
     e.preventDefault();
+    let searchValue = $INPUT.value;
+    let searchType = document.querySelector('input[name="searchType"]:checked').value;
     $CONTAINER.innerHTML = "";
     if (validation()) {
         try {
-            searchValue = document.querySelector(`input[type = "text"]`).value.toLowerCase();
-            let newApi = API_INGR + searchValue;
-            let ingredients = await fetchData(newApi)
-            renderData(ingredients)
+            if (searchType === "name") {
+                let newApi = API_NAME + searchValue;
+                let instructions = await fetchData(newApi);
+                renderData(instructions);
+            }
+            else {
+                let newApiTwo = API_INGR + searchValue;
+                let ingredients = await fetchData(newApiTwo);
 
+                renderData(ingredients);
+            }
         } catch (error) {
             $CONTAINER.innerHTML = `<div class="error js-error"> No results </div>`
         }
@@ -87,24 +82,20 @@ async function eventHandler(e) {
 };
 
 function renderIngredients(value) {
-    debugger;
     let newList = [];
-    for (let i = 1; i <= 15; i++) {
 
+    for (let i = 1; i <= 15; i++) {
         let ingr = value[`strIngredient${i}`];
         if (typeof ingr === "string" && ingr.length > 0) {
             newList.push(ingr);
-        };
 
+        };
     }
 
-    return newList.map(newListIngr => `<li>${newListIngr}</li>`).join("")
-
+    return newList.map(newListIngr => `<li>${newListIngr}</li>`).join("");;
 
 }
-
-$BUTTON_FIRST.addEventListener("click", alkoholOrNon);
-$BUTTON_TWO.addEventListener("click", eventHandler);
+$BUTTON.addEventListener("click", eventHandler);
 $INPUT.addEventListener("keypress", (e) => {
     if (e.key === "Enter") {
         eventHandler(e);

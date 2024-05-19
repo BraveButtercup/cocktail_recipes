@@ -13,60 +13,46 @@
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <section class="header d-flex flex-column align-items-center">
-      <h1>Cocktail recepies</h1>
-      <img
-        class="logo"
-        src="./assets/refc.png"
-        alt="refreshing cocktail logo"
-      />
-    </section>
-    <section class="form">
-      <form action="#" method="GET">
-        <h2>Do you want alcoholic or non-alcoholic cocktail?</h2>
-        <div
-          class="radios m-3 d-flex align-items-center justify-content-center"
-        >
-          <label for="alc" class="m-2"
-            >Alcoholic
-            <input type="radio" id="alc" name="cocktail" value="Alcoholic"
-          /></label>
-          <label for="nonalc" class="m-2"
-            >Non-alcoholic
-            <input
-              type="radio"
-              id="nonalc"
-              name="cocktail"
-              value="Non_Alcoholic"
-          /></label>
+    <main>
+      <section class="main">
+        <h1>Cocktail recepies</h1>
+        <div class="form">
+          <form action="#" method="GET">
+            <div>
+              <input
+                type="radio"
+                id="name"
+                name="searchType"
+                value="name"
+                checked
+              />
+              <label for="name">Name</label>
+              <input
+                type="radio"
+                id="ingredient"
+                name="searchType"
+                value="ingredient"
+              />
+              <label for="ingredient">Ingredients</label>
+              <input
+                type="text"
+                class="form-control js-field"
+                id="validationServer03"
+                aria-describedby="validationServer03Feedback"
+                required
+              />
+              <div id="validationServer03Feedback" class="invalid-feedback">
+                Please write something
+              </div>
+              <button type="button" class="mb-5 js-btn-two btn btn-success">
+                Search
+              </button>
+            </div>
+          </form>
         </div>
-        <button type="button" class="mb-5 js-btn btn btn-success">
-          Search
-        </button>
-
-        <div>
-          <label for="validationServer03" class="form-label"
-            >Search ingredients or name</label
-          >
-          <input
-            type="text"
-            class="form-control js-field"
-            id="validationServer03"
-            aria-describedby="validationServer03Feedback"
-            required
-          />
-          <div id="validationServer03Feedback" class="invalid-feedback">
-            Please write something
-          </div>
-          <button type="button" class="mb-5 js-btn-two btn btn-success">
-            Search
-          </button>
-        </div>
-      </form>
-    </section>
-
-    <section class="cocktail-container js-container"></section>
-
+      </section>
+      <section class="cocktail-container js-container"></section>
+    </main>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
