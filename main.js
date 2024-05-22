@@ -35,8 +35,8 @@ function createDataTemplate(data) {
                 </div>`
     } else if (searchType === "ingredient") {
         return `<div class="js-card cocktail-card">
-                <a href="#"><h2 class="js-name" data-id = ${data.idDrink} > ${data.strDrink}</h2></a>
-                <img src="${data.strDrinkThumb}" alt="${data.strDrink}" class="search-img"/>
+                <a href="#" ><h2 class="js-name" data-id = ${data.idDrink} > ${data.strDrink}</h2></a>
+                <img src="${data.strDrinkThumb}" alt="${data.strDrink}" class="search-img" data-id = "${data.idDrink}" />
                 </div>`
     } else {
         return `<div class="error js-error"> No results </div>`
@@ -95,7 +95,7 @@ function renderIngredients(value) {
 }
 
 async function searchRecipe(e) {
-    debugger;
+
     e.preventDefault();
     CONTAINER.innerHTML = "";
     let idValue = e.target.dataset.id;
