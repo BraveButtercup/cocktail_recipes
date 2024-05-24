@@ -21,12 +21,23 @@ h1 {
 h2 {
   color: var(--font-color);
   font-size: 1.5rem;
+  margin-top: 1rem;
+}
+h3 {
+  font-size: 1.5rem;
+}
+a {
+  text-decoration: none;
+}
+p {
   margin: 1rem;
 }
 .main {
   background-image: url(./assets/background.png);
   background-size: cover;
-  height: 100vh;
+  background-repeat: no-repeat;
+  height: 75vh;
+  width: 100%;
 }
 label {
   color: whitesmoke;
@@ -65,6 +76,10 @@ label {
 }
 img {
   width: 80%;
+}
+.search-img {
+  margin: 1rem;
+  border-radius: 2rem;
 }
 .cocktail-container {
   display: grid;

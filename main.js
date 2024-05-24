@@ -7,9 +7,15 @@ const INPUT = document.querySelector(".js-field");
 
 
 async function fetchData(url) {
-    const response = await fetch(url);
-    const data = await response.json();
-    return data.drinks;
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        return data.drinks;
+    } catch (error) {
+        alert("Fetch failed");
+
+    }
+
 };
 
 function renderData(data) {
@@ -28,8 +34,8 @@ function createDataTemplate(data) {
         return `<div class="js-card cocktail-card">
                 <h2 class="js-name"> ${data.strDrink}</h2>
                 <img src="${data.strDrinkThumb}" alt="${data.strDrink}" class="search-img"/>
-                <div>Ingredients: 
-                <ul>${filteredIngredients}</ul></div>
+                <h3> Ingredients: </h3>
+                <ul>${filteredIngredients}</ul>
                 <p>${data.strInstructions}</p>
     
                 </div>`
@@ -95,25 +101,28 @@ function renderIngredients(value) {
 }
 
 async function searchRecipe(e) {
-
+    debugger;
     e.preventDefault();
     CONTAINER.innerHTML = "";
+
     let idValue = e.target.dataset.id;
-    let ingredientsData = await fetchData(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${idValue}`);
-    let filteredIngredientsTwo = renderIngredients(ingredientsData[0]);
-    let html =
-        `<div class="js-card cocktail-card">
-    <h2 class="js-name"> ${ingredientsData[0].strDrink}</h2>
-    <img src="${ingredientsData[0].strDrinkThumb}" alt="${ingredientsData[0].strDrink}" class="search-img"/>
-    <div>Ingredients: 
-    <ul>${filteredIngredientsTwo}</ul></div>
-    <p>${ingredientsData[0].strInstructions}</p>
-
+    if (idValue === "undefined") {
+        return;
+    } else {
+        let ingredientsData = await fetchData(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${idValue}`);
+        let filteredIngredientsTwo = renderIngredients(ingredientsData[0]);
+        let html =
+            `<div class="js-card cocktail-card">
+                <h2 class="js-name"> ${ingredientsData[0].strDrink}</h2>
+                <img src="${ingredientsData[0].strDrinkThumb}" alt="${ingredientsData[0].strDrink}" class="search-img"/>
+                <h3> Ingredients: </h3>
+                <ul>${filteredIngredientsTwo}</ul>
+                <p>${ingredientsData[0].strInstructions}</p>
     </div>`
-
-    return CONTAINER.innerHTML += html;
-
+        return CONTAINER.innerHTML += html;
+    }
 }
+
 
 BUTTON.addEventListener("click", eventHandler);
 INPUT.addEventListener("keypress", (e) => {
