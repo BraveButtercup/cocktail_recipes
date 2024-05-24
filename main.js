@@ -101,7 +101,7 @@ function renderIngredients(value) {
 }
 
 async function searchRecipe(e) {
-    debugger;
+
     e.preventDefault();
     CONTAINER.innerHTML = "";
 
