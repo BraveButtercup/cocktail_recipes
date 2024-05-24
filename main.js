@@ -106,21 +106,17 @@ async function searchRecipe(e) {
     CONTAINER.innerHTML = "";
 
     let idValue = e.target.dataset.id;
-    if (idValue === "undefined") {
-        return;
-    } else {
-        let ingredientsData = await fetchData(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${idValue}`);
-        let filteredIngredientsTwo = renderIngredients(ingredientsData[0]);
-        let html =
-            `<div class="js-card cocktail-card">
+    let ingredientsData = await fetchData(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${idValue}`);
+    let filteredIngredientsTwo = renderIngredients(ingredientsData[0]);
+    let html =
+        `<div class="js-card cocktail-card">
                 <h2 class="js-name"> ${ingredientsData[0].strDrink}</h2>
                 <img src="${ingredientsData[0].strDrinkThumb}" alt="${ingredientsData[0].strDrink}" class="search-img"/>
                 <h3> Ingredients: </h3>
                 <ul>${filteredIngredientsTwo}</ul>
                 <p>${ingredientsData[0].strInstructions}</p>
     </div>`
-        return CONTAINER.innerHTML += html;
-    }
+    return CONTAINER.innerHTML += html;
 }
 
 
