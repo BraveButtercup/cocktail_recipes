@@ -10,45 +10,59 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
     <main>
       <section class="main">
-        <h1>Cocktail recipies</h1>
-        <div class="form">
-          <form action="#" method="GET">
-            <div>
-              <input
-                type="radio"
-                id="name"
-                name="searchType"
-                value="name"
-                checked
-              />
-              <label for="name">Name</label>
-              <input
-                type="radio"
-                id="ingredient"
-                name="searchType"
-                value="ingredient"
-              />
-              <label for="ingredient">Ingredients</label>
-              <input
-                type="text"
-                class="form-control js-field"
-                id="validationServer03"
-                aria-describedby="validationServer03Feedback"
-                required
-              />
-              <div id="validationServer03Feedback" class="invalid-feedback">
-                Please write something
+        <div class="searchbar">
+          <h1>Cocktail recipies</h1>
+          <div class="form">
+            <form action="#" method="GET">
+              <div>
+                <div class="radio">
+                  <div>
+                    <input
+                      type="radio"
+                      id="name"
+                      name="searchType"
+                      value="name"
+                      checked
+                    />
+                    <label for="name">Name</label>
+                  </div>
+                  <div>
+                    <input
+                      type="radio"
+                      id="ingredient"
+                      name="searchType"
+                      value="ingredient"
+                    />
+                    <label for="ingredient">Ingredients</label>
+                  </div>
+                </div>
+                <input
+                  type="text"
+                  class="form-control js-field"
+                  id="validationServer03"
+                  aria-describedby="validationServer03Feedback"
+                  required
+                />
+                <div id="validationServer03Feedback" class="invalid-feedback">
+                  Please write something
+                </div>
+                <button type="button" class="mb-5 js-btn btn btn-success">
+                  Search
+                </button>
               </div>
-              <button type="button" class="mb-5 js-btn-two btn btn-success">
-                Search
-              </button>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
       </section>
       <section class="cocktail-container js-container"></section>
@@ -58,6 +72,6 @@
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
-    <script type="module" src="./main2.js"></script>
+    <script type="module" src="./main.js"></script>
   </body>
 </html>
