@@ -2,35 +2,59 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-size: 16px;
+  font-size: 15px;
   list-style-type: none;
 }
 
 :root {
+  --card-color: #ffc681;
+  --background-color: #6cefdd;
+  --button-color-two: #4dfff3;
   --button-color: #e7a249;
   --font-color: #e23d09;
 }
-
+html {
+  scroll-behavior: smooth;
+}
 h1 {
-  font-size: 3rem;
+  margin-top: 2rem;
+  font-size: 4rem;
   text-decoration: underline;
   color: var(--font-color);
   text-align: center;
   text-shadow: 1px 1px 3px black;
 }
+h2 {
+  margin: 2rem;
+  font-size: 2rem;
+  text-decoration: underline;
+}
+h3 {
+  text-align: center;
+  font-size: 1.7rem;
+}
+p {
+  margin: 1.5rem;
+  font-size: 1.2rem;
+}
+li {
+  font-size: 1.2rem;
+}
 body {
   font-family: "Bubblegum Sans", sans-serif;
+  background-color: var(--background-color);
 }
 .main {
   background-image: url(./assets/background_ct.png);
   background-size: cover;
   background-repeat: no-repeat;
+  background-position: center center;
   height: 100vh;
   display: flex;
   align-items: flex-start;
+  justify-content: center;
 }
 .searchbar {
-  margin-top: 12rem;
   width: 350px;
 }
 
@@ -40,9 +64,10 @@ body {
 label {
   margin: 0.2rem;
   color: antiquewhite;
-  font-size: 1.2rem;
+  text-shadow: 2px 2px 2px black;
+  font-size: 1.3rem;
   font-weight: 400;
-  letter-spacing: 5px;
+  letter-spacing: 2px;
 }
 .error {
   text-align: center;
@@ -53,8 +78,8 @@ label {
   border: 2px solid black;
 }
 img {
-  border: 15px solid black;
-  width: 50%;
+  border: 3px solid black;
+  width: 80%;
 }
 .form {
   text-align: center;
@@ -66,34 +91,60 @@ img {
 .btn {
   color: black;
   font-weight: 500;
+  background-color: var(--button-color-two);
+  margin: 1rem;
+}
+.view-btn {
+  color: black;
+  font-weight: 500;
   background-color: var(--button-color);
   border: var(--button-color);
+  padding: 0.5rem;
   margin: 1rem;
+  border-radius: 10px;
 }
 .btn:hover {
   cursor: pointer;
   background-color: var(--font-color);
+  border: 1px solid var(--font-color);
 }
 .cocktail-card {
+  background-color: var(--card-color);
   text-align: center;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
-  margin: 1rem 0.5rem;
+  margin: 1rem;
   font-size: 16px;
-  border: 1px solid black;
+  border: 3px solid black;
   border-radius: 2rem;
-  box-shadow: 1px 1px 1px #3e3d3f;
+  box-shadow: 2px 2px 3px #5a575c;
 }
 
 .search-img {
   margin: 1rem;
   border-radius: 2rem;
 }
+ul {
+  text-align: center;
+  padding: 0;
+}
 .cocktail-container {
   display: grid;
   grid-template-columns: 1fr;
+}
+.viewed {
+  display: flex;
+  margin: auto;
+}
+footer {
+  display: flex;
+  justify-content: center;
+}
+@media (min-width: 576px) {
+  .viewed {
+    width: 60%;
+  }
 }
 @media (min-width: 768px) {
   .cocktail-container {
@@ -103,12 +154,10 @@ img {
 
 @media (min-width: 992px) {
   .cocktail-container {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
+    grid-template-columns: 1fr 1fr 1fr;
     width: 100%;
   }
-  .cocktail-card {
-    width: 20%;
+  .viewed {
+    width: 40%;
   }
 }

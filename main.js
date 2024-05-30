@@ -32,15 +32,17 @@ function createDataTemplate(data) {
         return `<div class="js-card cocktail-card">
                 <h2 class="js-name"> ${data.strDrink}</h2>
                 <img src="${data.strDrinkThumb}" alt="${data.strDrink}" class="search-img"/>
+                <div class=ingr-list">
                 <h3> Ingredients: </h3>
                 <ul>${filteredIngredients}</ul>
+                </div>
                 <p>${data.strInstructions}</p>
                 </div>`
     } else {
         return ` <div class="js-card cocktail-card">
                 <h2 class="js-name"> ${data.strDrink}</h2>
                 <img src="${data.strDrinkThumb}" alt="${data.strDrink}" class="search-img"/>
-                <button class="view-button js-view-btn" data-id ="${data.idDrink}"> View Recipe </button>
+                <button class="view-button view-btn js-view-btn" data-id ="${data.idDrink}"> View Recipe </button>
                 </div>`
     }
 }
@@ -68,11 +70,13 @@ async function eventHandler(e) {
                 let newApi = API_NAME + searchValue;
                 let instructions = await fetchData(newApi);
                 renderData(instructions);
+                CONTAINER.classList.remove("viewed")
             }
             else {
                 let newApiTwo = API_INGR + searchValue;
                 let ingredients = await fetchData(newApiTwo);
                 renderData(ingredients);
+                CONTAINER.classList.remove("viewed")
             }
         }
         catch (error) {
@@ -80,6 +84,7 @@ async function eventHandler(e) {
         }
 
     }
+    CONTAINER.scrollIntoView();
 };
 
 function renderIngredients(value) {
@@ -95,12 +100,12 @@ function renderIngredients(value) {
 
 }
 async function viewRecipeDetails(e) {
-
     if (e.target.classList.contains('js-view-btn')) {
         const drinkId = e.target.getAttribute('data-id');
         const url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${drinkId}`;
         const data = await fetchData(url);
         renderData(data);
+        CONTAINER.classList.add("viewed")
     }
 }
 BUTTON.addEventListener("click", eventHandler);
