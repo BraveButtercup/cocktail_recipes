@@ -4,6 +4,9 @@ const CONTAINER = document.querySelector(".js-container");
 const BUTTON = document.querySelector(".js-btn");
 const INPUT = document.querySelector(".js-field");
 
+let showBackButton;
+let previousData = [];
+
 async function fetchData(url) {
     try {
         const response = await fetch(url);
@@ -15,19 +18,19 @@ async function fetchData(url) {
     }
 };
 
-function renderData(data) {
+function renderData(data, showBackButton = false) {
 
     if (data.length) {
-        let template = data.map(glass => createDataTemplate(glass)).join("");
+        let template = data.map(glass => createDataTemplate(glass, showBackButton)).join("");
         CONTAINER.innerHTML = template;
     } else {
         CONTAINER.innerHTML = `<div class="error"> No result! Try again </div>`;
     }
 };
 
-function createDataTemplate(data) {
+function createDataTemplate(data, showBackButton = false) {
 
-    let filteredIngredients = renderIngredients(data);// itt tartok rendereljen ki recepteket gombbal amikor rányomok a gombra megjeleniti a receptet összetevőkkel és leiárssal
+    let filteredIngredients = renderIngredients(data);
     if (filteredIngredients.length > 0) {
         return `<div class="js-card cocktail-card">
                 <h2 class="js-name"> ${data.strDrink}</h2>
@@ -37,13 +40,17 @@ function createDataTemplate(data) {
                 <ul>${filteredIngredients}</ul>
                 </div>
                 <p>${data.strInstructions}</p>
-                </div>`
+                 ${showBackButton ? '<button class="viewandback-btn js-back-btn"> Back </button>' : ''}
+                </div>
+                `
     } else {
         return ` <div class="js-card cocktail-card">
                 <h2 class="js-name"> ${data.strDrink}</h2>
                 <img src="${data.strDrinkThumb}" alt="${data.strDrink}" class="search-img"/>
-                <button class="view-button view-btn js-view-btn" data-id ="${data.idDrink}"> View Recipe </button>
+                <button class="viewandback-btn  js-view-btn" data-id ="${data.idDrink}"> View Recipe </button>
+               
                 </div>`
+
     }
 }
 
@@ -66,24 +73,25 @@ async function eventHandler(e) {
     CONTAINER.innerHTML = "";
     if (validation()) {
         try {
+            let data;
             if (searchType === "name") {
                 let newApi = API_NAME + searchValue;
-                let instructions = await fetchData(newApi);
-                renderData(instructions);
-                CONTAINER.classList.remove("viewed")
+                data = await fetchData(newApi);
             }
             else {
                 let newApiTwo = API_INGR + searchValue;
-                let ingredients = await fetchData(newApiTwo);
-                renderData(ingredients);
-                CONTAINER.classList.remove("viewed")
+                data = await fetchData(newApiTwo);
             }
+            previousData = data;
+            renderData(data);
+            CONTAINER.classList.remove("viewed")
         }
         catch (error) {
             CONTAINER.innerHTML = `<div class="error js-error"> No Results </div>`
         }
 
     }
+
     CONTAINER.scrollIntoView();
 };
 
@@ -100,14 +108,24 @@ function renderIngredients(value) {
 
 }
 async function viewRecipeDetails(e) {
+
     if (e.target.classList.contains('js-view-btn')) {
         const drinkId = e.target.getAttribute('data-id');
         const url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${drinkId}`;
         const data = await fetchData(url);
-        renderData(data);
+        renderData(data, showBackButton = true);
         CONTAINER.classList.add("viewed")
+
     }
 }
+function goBack(e) {
+    if (e.target.classList.contains('js-back-btn')) {
+        renderData(previousData);
+        CONTAINER.classList.remove("viewed");
+    }
+}
+
+
 BUTTON.addEventListener("click", eventHandler);
 INPUT.addEventListener("keypress", (e) => {
     if (e.key === "Enter") {
@@ -117,6 +135,6 @@ INPUT.addEventListener("keypress", (e) => {
 
 
 CONTAINER.addEventListener("click", viewRecipeDetails);
-
+CONTAINER.addEventListener("click", goBack);
 
 
