@@ -1,8 +1,10 @@
 const API_NAME = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=`;
 const API_INGR = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=`;
-const CONTAINER = document.querySelector(".js-container");
+const CONTAINER = document.querySelector(".js-cocktail-container");
+const ERROR_CONTAINER = document.querySelector(".js-error-container")
 const BUTTON = document.querySelector(".js-btn");
 const INPUT = document.querySelector(".js-field");
+const UPARROW = document.querySelector(".backtotop");
 
 let showBackButton;
 let previousData = [];
@@ -24,7 +26,7 @@ function renderData(data, showBackButton = false) {
         let template = data.map(glass => createDataTemplate(glass, showBackButton)).join("");
         CONTAINER.innerHTML = template;
     } else {
-        CONTAINER.innerHTML = `<div class="error"> No result! Try again </div>`;
+        ERROR_CONTAINER.innerHTML = `<div class="error"> No result! Try again </div>`;
     }
 };
 
@@ -87,7 +89,7 @@ async function eventHandler(e) {
             CONTAINER.classList.remove("viewed")
         }
         catch (error) {
-            CONTAINER.innerHTML = `<div class="error js-error"> No Results </div>`
+            ERROR_CONTAINER.innerHTML = `<div class="error-card"> No Results </div>`
         }
 
     }
@@ -115,9 +117,10 @@ async function viewRecipeDetails(e) {
         const data = await fetchData(url);
         renderData(data, showBackButton = true);
         CONTAINER.classList.add("viewed")
-
     }
+    CONTAINER.scrollIntoView();
 }
+
 function goBack(e) {
     if (e.target.classList.contains('js-back-btn')) {
         renderData(previousData);
@@ -136,5 +139,11 @@ INPUT.addEventListener("keypress", (e) => {
 
 CONTAINER.addEventListener("click", viewRecipeDetails);
 CONTAINER.addEventListener("click", goBack);
-
+window.addEventListener("scroll", () => {
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        UPARROW.classList.add("show");
+    } else {
+        UPARROW.classList.remove("show");
+    }
+});
 

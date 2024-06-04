@@ -20,7 +20,7 @@
   </head>
   <body>
     <main>
-      <section class="main">
+      <section class="main" id="main">
         <div class="searchbar">
           <h1>Cocktail recipies</h1>
           <div class="form">
@@ -65,7 +65,10 @@
           </div>
         </div>
       </section>
-      <section class="cocktail-container js-container"></section>
+      <section>
+        <section class="cocktail-container js-cocktail-container"></section>
+        <section class="error-container js-error-container"></section>
+      </section>
     </main>
     <footer>
       <p>2024 &copy; Boglárka Bátor</p>
@@ -76,5 +79,8 @@
       crossorigin="anonymous"
     ></script>
     <script type="module" src="./main.js"></script>
+    <a href="#main" class="backtotop"
+      ><img src="./assets/arrow.png" alt="up arrow" class="arrow"
+    /></a>
   </body>
 </html>
