@@ -73,6 +73,7 @@ async function eventHandler(e) {
     let searchValue = INPUT.value;
     let searchType = document.querySelector('input[name="searchType"]:checked').value;
     CONTAINER.innerHTML = "";
+    ERROR_CONTAINER.innerHTML = "";
     if (validation()) {
         try {
             let data;
