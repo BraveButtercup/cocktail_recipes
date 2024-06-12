@@ -132,7 +132,7 @@ label {
 }
 .cocktail-card {
   background-color: var(--card-color);
-  max-width: 50%;
+  max-width: 80%;
   text-align: center;
   display: flex;
   flex-direction: column;
