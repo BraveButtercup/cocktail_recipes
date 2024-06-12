@@ -9,6 +9,7 @@ const UPARROW = document.querySelector(".backtotop");
 let showBackButton;
 let previousData = [];
 
+/**Fetching data with API  */
 async function fetchData(url) {
     try {
         const response = await fetch(url);
@@ -20,6 +21,7 @@ async function fetchData(url) {
     }
 };
 
+/*Rendering data on screen*/
 function renderData(data, showBackButton = false) {
 
     if (data.length) {
@@ -30,6 +32,7 @@ function renderData(data, showBackButton = false) {
     }
 };
 
+/*The template of the fetched data: with or without ingredients*/
 function createDataTemplate(data, showBackButton = false) {
 
     let filteredIngredients = renderIngredients(data);
@@ -56,6 +59,7 @@ function createDataTemplate(data, showBackButton = false) {
     }
 }
 
+/*Searchbar input validation*/
 function validation() {
 
     if (INPUT.value == "" || INPUT.value.trim().length == 0) {
@@ -67,6 +71,9 @@ function validation() {
     return true;
 };
 
+/* Handles the event triggered by a form submission or button click.
+  Prevents the default action, validates input, fetches data based on search type,
+  and renders the data or displays an error message if no results are found.*/
 async function eventHandler(e) {
 
     e.preventDefault();
@@ -88,16 +95,15 @@ async function eventHandler(e) {
             previousData = data;
             renderData(data);
             CONTAINER.classList.remove("viewed")
+            CONTAINER.classList.add("show-scrollbar")
         }
         catch (error) {
             ERROR_CONTAINER.innerHTML = `<div class="error-card"> No Results </div>`
         }
-
     }
-
-    CONTAINER.scrollIntoView();
 };
 
+/*If the fetched API contains ingredients,returned it in a list*/
 function renderIngredients(value) {
     let newList = [];
 
@@ -108,20 +114,21 @@ function renderIngredients(value) {
         };
     }
     return newList.map(newListIngr => `<li>${newListIngr}</li>`).join("");
-
 }
+
+/*Handles the click event on the view button to fetch and display detailed recipe information.*/
 async function viewRecipeDetails(e) {
 
     if (e.target.classList.contains('js-view-btn')) {
-        const drinkId = e.target.getAttribute('data-id');
+        const drinkId = e.target.getAttribute('data-id');// Get the id from the data attribute
         const url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${drinkId}`;
         const data = await fetchData(url);
-        renderData(data, showBackButton = true);
-        CONTAINER.classList.add("viewed")
+        renderData(data, showBackButton = true);// fetch and display the detailed recipe and shows the back button
+        CONTAINER.classList.add("viewed");
     }
-    CONTAINER.scrollIntoView();
 }
 
+/*Clicking the back button displays all the searched items of the user, not just one */
 function goBack(e) {
     if (e.target.classList.contains('js-back-btn')) {
         renderData(previousData);
@@ -137,9 +144,9 @@ INPUT.addEventListener("keypress", (e) => {
     }
 });
 
-
 CONTAINER.addEventListener("click", viewRecipeDetails);
 CONTAINER.addEventListener("click", goBack);
+/*the "go-to-top" arrow is displayed only when the user scrolls down with 20px*/
 window.addEventListener("scroll", () => {
     if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
         UPARROW.classList.add("show");
